@@ -7,7 +7,7 @@ var app = express();
 
 var status = "on";
 
-nunjucks.configure('views', {
+nunjucks.configure(__dirname + '/views', {
 	autoescape: true,
 	express: app
 });
