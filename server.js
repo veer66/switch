@@ -6,6 +6,7 @@ var express = require('express'),
 var app = express();
 
 var status = "on";
+var v = "N/A";
 
 nunjucks.configure(__dirname + '/views', {
 	autoescape: true,
@@ -16,7 +17,7 @@ app.get('/', function(req, res) {
 	if (req.query.status) {
 		status = req.query.status;
 	}
-	res.render('index.html', {status:req.query.status});
+	res.render('index.html', {status:req.query.status, v:v});
 });
 
 var httpServer = app.listen(3000, function() {
@@ -29,7 +30,8 @@ var tcpServer = net.createServer();
 tcpServer.listen(6981, '0.0.0.0');
 console.log("TCP server is running ...");
 tcpServer.on('connection', function(sock) {	
-    sock.on('data', function(data) {
+    sock.on('data', function(buf) {
+        v = buf.toString();
         sock.write(status);
     });    
 });
